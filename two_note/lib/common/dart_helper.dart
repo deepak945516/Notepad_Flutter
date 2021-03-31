@@ -23,4 +23,15 @@ class DartHelper {
     var formattedDate = "${dateParse.day}/${dateParse.month}/${dateParse.year}";
     return formattedDate;
   }
+
+  static String geDateFrom(int timeStamp) {
+    var date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+    var dateParse = DateTime.parse(date.toString());
+    var formattedDate = "${dateParse.day}/${dateParse.month}/${dateParse.year}";
+    return formattedDate;
+  }
+
+  static int getCurrentTimeStamp() {
+    return DateTime.now().microsecondsSinceEpoch;
+  }
 }

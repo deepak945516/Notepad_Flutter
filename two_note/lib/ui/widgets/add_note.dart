@@ -41,6 +41,7 @@ class AddNote extends StatelessWidget {
               textCapitalization: TextCapitalization.sentences,
               autocorrect: false,
               maxLength: 25,
+              //keyboardType: TextInputType.name,
               textInputAction: TextInputAction.next,
               maxLines: 1,
               controller: titleController,
@@ -66,57 +67,59 @@ class AddNote extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                MaterialButton(
-                    shape: StadiumBorder(),
-                    color: Colors.blue[800],
-                    minWidth: 120,
-                    height: 45,
-                    child: Text(
-                      isUpdate ? "Update" : "Add",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MaterialButton(
+                      shape: StadiumBorder(),
+                      color: Colors.blue[800],
+                      minWidth: 150,
+                      height: 45,
+                      child: Text(
+                        isUpdate ? "Update" : "Add",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      if (titleController.text.trim().isEmpty ||
-                          detailsController.text.trim().isEmpty) {
-                        DartHelper.showToast(
-                            message: "Please enter title and details");
-                        return;
-                      }
-                      note.title = titleController.text;
-                      note.details = detailsController.text;
-                      var currentDate = DartHelper.getCurrentDate();
-                      note.updatedDate = currentDate;
-                      if (isUpdate == false) {
-                        note.createdDate = currentDate;
-                      }
-                      addUpdateAction(note, isUpdate);
-                      Navigator.pop(context);
-                    }),
-                SizedBox(
-                  width: 20,
-                ),
-                MaterialButton(
-                    shape: StadiumBorder(),
-                    color: Colors.red,
-                    minWidth: 120,
-                    height: 45,
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
+                      onPressed: () {
+                        if (titleController.text.trim().isEmpty) {
+                          DartHelper.showToast(
+                              message: "Please enter title");
+                          return;
+                        }
+                        note.title = titleController.text;
+                        note.details = detailsController.text;
+                        var currentDate = "${DartHelper.getCurrentTimeStamp()}";
+                        note.updatedDate = currentDate;
+                        if (isUpdate == false) {
+                          note.createdDate = currentDate;
+                        }
+                        addUpdateAction(note, isUpdate);
+                        Navigator.pop(context);
+                      }),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  MaterialButton(
+                      shape: StadiumBorder(),
+                      color: Colors.red,
+                      minWidth: 150,
+                      height: 45,
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-              ],
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                ],
+              ),
             ),
           ],
         ),

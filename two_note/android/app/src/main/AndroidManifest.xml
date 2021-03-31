@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.deepak.two_note">
    <application
-        android:label="Notepad"
+        android:label="2Note"
         android:icon="@mipmap/two_note_app_icon">
         <activity
             android:name=".MainActivity"

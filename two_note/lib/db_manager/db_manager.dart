@@ -41,21 +41,24 @@ class DbManager {
 
   Future<List<Note>> getNotes({String orderBy}) async {
     var sortBy = "By Title";
+    var ascDescKey = "DESC";
     if (orderBy == "By Title") {
       sortBy = "title";
+      ascDescKey = "ASC";
     } else if (orderBy == "By Created Date") {
       sortBy = "createdDate";
     } else {
       sortBy = "updatedDate";
     }
     await createDatabase();
-    var result =
-        await database.rawQuery('SELECT * FROM $tableName ORDER BY $sortBy');
+    var result = await database
+        .rawQuery('SELECT * FROM $tableName ORDER BY $sortBy $ascDescKey');
     //return result.toList();
     return result.map((noteJson) {
       return Note.fromJson(noteJson);
     }).toList();
   }
+
 
   Future<Note> getNote(int id) async {
     var results =

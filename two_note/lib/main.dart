@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
-      title: 'Notepad',
+      title: '2Note',
       theme: ThemeData(
         primaryColor: Colors.cyan[900],
       ),

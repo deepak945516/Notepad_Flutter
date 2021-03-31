@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:two_note/common/dart_helper.dart';
 import 'package:two_note/common/shared_pref.dart';
 import 'package:two_note/db_manager/db_manager.dart';
 import 'package:two_note/model/note_model.dart';
@@ -30,10 +31,6 @@ class _NotesState extends State<Notes> {
     });
     return Scaffold(
       appBar: AppBar(
-        brightness: Brightness.dark,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.black),
-        
-        centerTitle: true,
         title: Text(
           "Notes",
         ),
@@ -102,9 +99,9 @@ class _NotesState extends State<Notes> {
   }
 
   Widget getNoteList(List<Note> noteList) {
-    lastNoteId = noteList.reduce((value, element) {
-      return value.id > element.id ? value: element;
-    }).id;
+    lastNoteId = noteList
+        .reduce((value, element) => value.id > element.id ? value : element)
+        .id;
     return ListView.builder(
       padding: EdgeInsets.all(12),
       itemCount: noteList.length,
@@ -120,7 +117,7 @@ class _NotesState extends State<Notes> {
                   maxLines: 2,
                 ),
                 Text(
-                  note.createdDate,
+                  DartHelper.geDateFrom(int.parse(note.createdDate)),
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 13,
@@ -238,3 +235,5 @@ class _NotesState extends State<Notes> {
         });
   }
 }
+
+
