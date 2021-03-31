@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:two_note/common/dart_helper.dart';
 import 'package:two_note/common/shared_pref.dart';
 import 'package:two_note/db_manager/db_manager.dart';
