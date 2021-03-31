@@ -47,7 +47,7 @@ class AddNote extends StatelessWidget {
               controller: titleController,
               decoration: InputDecoration(
                 icon: Icon(Icons.title_outlined),
-                labelText: "Title",
+                labelText: "Note title",
               ),
             ),
             SizedBox(
@@ -60,8 +60,8 @@ class AddNote extends StatelessWidget {
               maxLines: 6,
               controller: detailsController,
               decoration: InputDecoration(
-                icon: Icon(Icons.details_outlined),
-                labelText: "Details",
+                icon: Icon(Icons.note_add_outlined),
+                labelText: "Note",
               ),
             ),
             SizedBox(
