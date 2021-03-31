@@ -75,7 +75,7 @@ class _NotesState extends State<Notes> {
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
-                  "Note is not added yet, please add some note by tapping + button",
+                  "Please add some note by tapping + button",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.grey,
