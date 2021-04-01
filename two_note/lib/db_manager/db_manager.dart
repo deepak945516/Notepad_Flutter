@@ -39,7 +39,7 @@ class DbManager {
     return result;
   }
 
-  Future<List<Note>> getNotes({String orderBy}) async {
+  Future<List<Note>> getNotes({String orderBy, String searchKey}) async {
     var sortBy = "By Title";
     var ascDescKey = "DESC";
     if (orderBy == "By Title") {
@@ -50,9 +50,11 @@ class DbManager {
     } else {
       sortBy = "updatedDate";
     }
+    var query = searchKey == null ? 'SELECT * FROM $tableName ORDER BY $sortBy $ascDescKey': 
+    'SELECT * FROM $tableName WHERE title LIKE \'%${searchKey.trim()}%\' OR details LIKE \'%${searchKey.trim()}%\' ORDER BY $sortBy $ascDescKey';
     await createDatabase();
     var result = await database
-        .rawQuery('SELECT * FROM $tableName ORDER BY $sortBy $ascDescKey');
+        .rawQuery(query);
     //return result.toList();
     return result.map((noteJson) {
       return Note.fromJson(noteJson);

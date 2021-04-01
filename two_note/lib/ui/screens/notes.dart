@@ -20,6 +20,13 @@ class _NotesState extends State<Notes> {
     "By Updated Date",
   ];
   String sortTitle;
+  var searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    notes = dbManager.getNotes(orderBy: sortTitle);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +37,7 @@ class _NotesState extends State<Notes> {
     });
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           "Notes",
         ),
@@ -53,9 +61,10 @@ class _NotesState extends State<Notes> {
                   addUpdateAction: (Note note, bool isUpdate) async {
                     note.id = lastNoteId == null ? 0 : lastNoteId + 1;
                     await dbManager.createNote(note);
-                    setState(() {
-                      notes = dbManager.getNotes(orderBy: sortTitle);
-                    });
+
+                    notes = dbManager.getNotes(
+                        orderBy: sortTitle,
+                        searchKey: searchController.text.trim(),);
                   },
                 );
               });
@@ -65,35 +74,64 @@ class _NotesState extends State<Notes> {
   }
 
   Widget getBody() {
-    notes = dbManager.getNotes(orderBy: sortTitle);
-    return FutureBuilder<List<Note>>(
-      future: notes,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  "Please add some note by tapping + button",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            );
-          }
-          return getNoteList(snapshot.data);
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        // By default, show a loading spinner.
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      },
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
+          padding: EdgeInsets.only(left: 12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(color: Colors.grey[300]),
+          ),
+          child: TextField(
+            controller: searchController,
+            textInputAction: TextInputAction.done,
+            keyboardType: TextInputType.name,
+            autocorrect: false,
+            decoration: InputDecoration(
+              icon: Icon(Icons.search_outlined),
+              hintText: "Search",
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              border: InputBorder.none,
+            ),
+            onChanged: (value) {
+              notes = dbManager.getNotes(orderBy: sortTitle, searchKey: value);
+            },
+          ),
+        ),
+        Expanded(
+          child: FutureBuilder<List<Note>>(
+            future: notes,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data.isEmpty) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        searchController.text.trim().isEmpty ? "Please add note by tapping + button":
+                        "No result found!",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return getNoteList(snapshot.data);
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+              // By default, show a loading spinner.
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -102,6 +140,7 @@ class _NotesState extends State<Notes> {
         .reduce((value, element) => value.id > element.id ? value : element)
         .id;
     return ListView.builder(
+      physics: BouncingScrollPhysics(),
       padding: EdgeInsets.all(12),
       itemCount: noteList.length,
       itemBuilder: (_, index) {
@@ -142,9 +181,10 @@ class _NotesState extends State<Notes> {
                       isUpdate: true,
                       addUpdateAction: (Note note, bool isUpdate) async {
                         await dbManager.updateNote(note);
-                        setState(() {
-                          notes = dbManager.getNotes(orderBy: sortTitle);
-                        });
+
+                        notes = dbManager.getNotes(
+                            orderBy: sortTitle,
+                            searchKey: searchController.text.trim());
                       },
                     );
                   });
@@ -166,9 +206,9 @@ class _NotesState extends State<Notes> {
         onSelected: (String menuName) {
           sortTitle = menuName;
           PreferenceData.setStringData("sortTitle", sortTitle);
-          setState(() {
-            notes = dbManager.getNotes(orderBy: sortTitle);
-          });
+
+          notes = dbManager.getNotes(
+              orderBy: sortTitle, searchKey: searchController.text.trim());
         },
         itemBuilder: (context) {
           return menuItems.map<PopupMenuItem<String>>((value) {
@@ -206,9 +246,11 @@ class _NotesState extends State<Notes> {
               TextButton(
                 onPressed: () {
                   dbManager.deleteNote(note.id);
-                  setState(() {
-                    notes = dbManager.getNotes(orderBy: sortTitle);
-                  });
+
+                  notes = dbManager.getNotes(
+                      orderBy: sortTitle,
+                      searchKey: searchController.text.trim());
+
                   Navigator.pop(context);
                 },
                 child: Text(
@@ -234,5 +276,3 @@ class _NotesState extends State<Notes> {
         });
   }
 }
-
-
