@@ -63,8 +63,9 @@ class _NotesState extends State<Notes> {
                     await dbManager.createNote(note);
 
                     notes = dbManager.getNotes(
-                        orderBy: sortTitle,
-                        searchKey: searchController.text.trim(),);
+                      orderBy: sortTitle,
+                      searchKey: searchController.text.trim(),
+                    );
                   },
                 );
               });
@@ -109,8 +110,9 @@ class _NotesState extends State<Notes> {
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
-                        searchController.text.trim().isEmpty ? "Please add note by tapping + button":
-                        "No result found!",
+                        searchController.text.trim().isEmpty
+                            ? "Please add note by tapping + button"
+                            : "No result found!",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.grey,
@@ -131,6 +133,15 @@ class _NotesState extends State<Notes> {
             },
           ),
         ),
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: Center(
+            child: Text(
+              "By Deepak",
+              style: TextStyle(color: Colors.grey[300]),
+            ),
+          ),
+        )
       ],
     );
   }
