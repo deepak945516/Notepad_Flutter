@@ -38,6 +38,7 @@ class _NotesState extends State<Notes> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        brightness: Brightness.dark,
         title: Text(
           "Notes",
         ),
@@ -81,6 +82,7 @@ class _NotesState extends State<Notes> {
           margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
           padding: EdgeInsets.only(left: 12),
           decoration: BoxDecoration(
+            color: Colors.grey[100],
             borderRadius: BorderRadius.circular(25),
             border: Border.all(color: Colors.grey[300]),
           ),
@@ -156,6 +158,9 @@ class _NotesState extends State<Notes> {
       itemCount: noteList.length,
       itemBuilder: (_, index) {
         var note = noteList[index];
+        var date = sortTitle == "By Updated Date"
+            ? note.updatedDate
+            : note.createdDate;
         return Card(
           child: ListTile(
             title: Row(
@@ -166,7 +171,7 @@ class _NotesState extends State<Notes> {
                   maxLines: 2,
                 ),
                 Text(
-                  DartHelper.geDateFrom(int.parse(note.createdDate)),
+                  DartHelper.geDateFrom(int.parse(date)),
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 13,

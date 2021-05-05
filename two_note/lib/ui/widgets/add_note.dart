@@ -74,7 +74,7 @@ class AddNote extends StatelessWidget {
                 children: [
                   MaterialButton(
                       shape: StadiumBorder(),
-                      color: Colors.blue[800],
+                      color: Theme.of(context).primaryColor,
                       minWidth: 150,
                       height: 45,
                       child: Text(
@@ -86,8 +86,7 @@ class AddNote extends StatelessWidget {
                       ),
                       onPressed: () {
                         if (titleController.text.trim().isEmpty) {
-                          DartHelper.showToast(
-                              message: "Please enter title");
+                          DartHelper.showToast(message: "Please enter title");
                           return;
                         }
                         note.title = titleController.text;
@@ -105,7 +104,7 @@ class AddNote extends StatelessWidget {
                   ),
                   MaterialButton(
                       shape: StadiumBorder(),
-                      color: Colors.red,
+                      color: Colors.blueGrey[800],
                       minWidth: 150,
                       height: 45,
                       child: Text(

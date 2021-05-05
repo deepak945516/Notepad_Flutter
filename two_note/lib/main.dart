@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:two_note/ui/screens/notes.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
   runApp(MyApp());
 }
 
@@ -14,7 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: '2Note',
       theme: ThemeData(
-        primaryColor: Colors.cyan[900],
+        primaryColor: Colors.deepPurple,
       ),
       home: Notes(),
     );
