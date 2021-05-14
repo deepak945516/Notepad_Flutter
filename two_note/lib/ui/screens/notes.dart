@@ -3,6 +3,7 @@ import 'package:two_note/common/dart_helper.dart';
 import 'package:two_note/common/shared_pref.dart';
 import 'package:two_note/db_manager/db_manager.dart';
 import 'package:two_note/model/note_model.dart';
+import 'package:two_note/ui/screens/change_password.dart';
 import 'package:two_note/ui/widgets/add_note.dart';
 
 class Notes extends StatefulWidget {
@@ -45,6 +46,9 @@ class _NotesState extends State<Notes> {
         actions: [
           getMenu(context),
         ],
+      ),
+      drawer: Drawer(
+        child: getDrawer(),
       ),
       body: getBody(),
       floatingActionButton: FloatingActionButton(
@@ -144,6 +148,50 @@ class _NotesState extends State<Notes> {
             ),
           ),
         )
+      ],
+    );
+  }
+
+  Widget getDrawer() {
+    return ListView(
+      padding: EdgeInsets.all(10),
+      children: [
+        DrawerHeader(
+          margin: EdgeInsets.all(0),
+          padding: EdgeInsets.all(0),
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.grey[300],
+                backgroundImage: AssetImage("lib/asset/ishika.jpg"),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Text(
+                "Ishika",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+              ),
+            ],
+          ),
+        ),
+        ListTile(
+          leading: Icon(Icons.security_outlined),
+          title: Text(
+            "Change Password",
+            style: TextStyle(fontSize: 17),
+          ),
+          horizontalTitleGap: 0,
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return ChangePassword();
+            }));
+          },
+        ),
       ],
     );
   }

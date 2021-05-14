@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:two_note/common/shared_pref.dart';
+import 'package:two_note/ui/screens/lock_screen.dart';
 import 'package:two_note/ui/screens/notes.dart';
 
-void main() {
+String storedPassword = "";
+bool isPasswordValidated = false;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  storedPassword = await PreferenceData.getStringData("password");
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
@@ -20,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.deepPurple,
       ),
-      home: Notes(),
+      home: isPasswordValidated ? Notes() : LockScreen(),
     );
   }
 }
